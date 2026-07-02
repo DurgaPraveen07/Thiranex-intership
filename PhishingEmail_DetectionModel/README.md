@@ -17,6 +17,7 @@ Use this scanner only on systems you own or where you have explicit permission t
 - Lightweight technology detection
 - JSON, HTML, and console reporting
 - Logging with timestamps and warnings
+- Phishing email classification with preprocessing, TF-IDF features, and evaluation metrics
 
 ## Installation
 
@@ -58,6 +59,14 @@ Generate all report formats:
 ```bash
 python scanner.py --url https://example.com --report all
 ```
+
+Train the phishing email detector on a labeled CSV dataset:
+
+```bash
+python phishing_detector.py --data path\to\emails.csv --text-column text --label-column label --model naive_bayes --save-model reports\phishing_model.pkl
+```
+
+The dataset should contain one column for email text and one column for labels. Labels are normalized from values such as `spam`/`ham` or `phishing`/`safe`.
 
 ## Project Structure
 
