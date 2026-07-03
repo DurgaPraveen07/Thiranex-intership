@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Register | Secure Login System{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Create a protected account.</h1>
+    <p>
+      The registration form normalizes input, validates email addresses, and
+      uses Django's password hashing pipeline instead of storing plaintext.
+    </p>
+    <div class="panel">
+      <strong>Security rationale</strong>
+      <p>
+        The project keeps password storage out of application code. Django salts
+        and hashes each password before it reaches the database.
+      </p>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Register</h2>
+    {% if form.errors %}
+      <ul class="errors">
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="field">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="field">
+        <label for="id_email">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="field">
+        <label for="id_password1">Password</label>
+        {{ form.password1 }}
+      </div>
+      <div class="field">
+        <label for="id_password2">Confirm password</label>
+        {{ form.password2 }}
+      </div>
+      <button class="button" type="submit">Create account</button>
+    </form>
+    <p class="footer-note">
+      Already registered? <a href="{% url 'login' %}">Log in here</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}

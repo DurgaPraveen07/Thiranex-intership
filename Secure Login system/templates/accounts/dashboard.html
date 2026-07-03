@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Secure Login System{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="split">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome, {{ user.username }}. Your login session is active.</p>
+    </div>
+    <a class="button-secondary" href="{% url 'two_factor_setup' %}">Manage 2FA</a>
+  </div>
+
+  <div class="grid" style="margin-top: 24px;">
+    <div class="panel">
+      <strong>Password hashing</strong>
+      <p>
+        Passwords are stored using the Django hasher pipeline, with Argon2
+        preferred to slow offline cracking attempts.
+      </p>
+    </div>
+    <div class="panel">
+      <strong>Session hygiene</strong>
+      <p>
+        Logout clears the session so the token cannot be reused after you end
+        the browser session.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top: 20px;">
+    <strong>Two-factor status</strong>
+    <p>
+      {% if profile.is_enabled %}
+        2FA is enabled for this account.
+      {% else %}
+        2FA is not enabled yet. You can activate it from the setup page.
+      {% endif %}
+    </p>
+  </div>
+</section>
+{% endblock %}

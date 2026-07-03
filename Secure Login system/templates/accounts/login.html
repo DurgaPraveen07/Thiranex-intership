@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Login | Secure Login System{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Sign in with secure session handling.</h1>
+    <p>
+      This login flow uses Django authentication, hashed passwords, and a
+      session token that is invalidated on logout.
+    </p>
+    <div class="grid" style="margin-top: 24px;">
+      <div class="panel">
+        <strong>SQL injection protection</strong>
+        <p>All lookups are handled through Django's ORM and form validation.</p>
+      </div>
+      <div class="panel">
+        <strong>Optional 2FA</strong>
+        <p>Enable TOTP-based verification for an extra factor after password login.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Login</h2>
+    {% if form.non_field_errors %}
+      <ul class="errors">
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="field">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+      </div>
+      <div class="field">
+        <label for="id_password">Password</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+      </div>
+      <button class="button" type="submit">Log in</button>
+    </form>
+    <p class="footer-note">
+      Need an account? <a href="{% url 'register' %}">Create one here</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}

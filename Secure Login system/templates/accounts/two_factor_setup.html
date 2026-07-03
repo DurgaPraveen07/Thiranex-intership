@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}2FA Setup | Secure Login System{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Two-factor authentication setup</h1>
+  <p>
+    Scan the secret below with an authenticator app, then enter the generated
+    6-digit code to activate 2FA.
+  </p>
+
+  <div class="grid" style="margin-top: 20px;">
+    <div class="panel">
+      <strong>Secret</strong>
+      <div class="token-box">{{ secret }}</div>
+    </div>
+    <div class="panel">
+      <strong>Provisioning URI</strong>
+      <div class="token-box">{{ provisioning_uri }}</div>
+    </div>
+  </div>
+
+  {% if form.errors %}
+    <ul class="errors" style="margin-top: 18px;">
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="post" novalidate style="margin-top: 20px; max-width: 420px;">
+    {% csrf_token %}
+    <div class="field">
+      <label for="id_token">Verification code</label>
+      {{ form.token }}
+    </div>
+    <button class="button" type="submit">Enable 2FA</button>
+  </form>
+
+  <p class="footer-note">
+    If you need a fresh secret, re-open this page after deleting the profile data.
+  </p>
+</section>
+{% endblock %}
